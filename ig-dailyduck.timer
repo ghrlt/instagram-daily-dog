@@ -1,0 +1,11 @@
+[Unit]
+Description=Post a duck in your Instagram story, everyday
+Wants=ig-dailyduck.service
+
+[Timer]
+Unit=ig-dailyduck.service
+OnCalendar=*-*-* 17:00:00
+AccuracySec=1h
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Post a duck in your Instagram story, everyday
+Wants=ig-dailyduck.timer
+
+[Service]
+Type=oneshot
+WorkingDirectory=MANUALLY_SET_THIS
+ExecStart=python app.py
+
+[Install]
+WantedBy=multi-user.target
