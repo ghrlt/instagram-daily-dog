@@ -1,6 +1,6 @@
 [Unit]
 Description=Post a duck in your Instagram story, everyday
-Wants=ig-dailyduck.service
+#Wants=ig-dailyduck.service
 
 [Timer]
 Unit=ig-dailyduck.service
