@@ -21,6 +21,8 @@ INSTAGRAM_PASSWORD = os.getenv('INSTAGRAM_PASSWORD')
 if not INSTAGRAM_PASSWORD:
     raise Exception("INSTAGRAM_PASSWORD not set!")
 
+INSTAGRAM_2FA_SEED = os.getenv('INSTAGRAM_2FA_SEED')
+
 
 def getDuck(duckid: int):
     url = "https://random-d.uk/api/{}.jpg".format(duckid)
@@ -36,6 +38,7 @@ def getDuck(duckid: int):
 
 
 def main():
+    code = ''
     dayOfTheYear = datetime.datetime.now().timetuple().tm_yday
 
     print("Day #{} | Logging in...".format(dayOfTheYear))
@@ -46,7 +49,11 @@ def main():
     except:
         print("Day #{} | WARNING: Settings not found!".format(dayOfTheYear))
 
-    client.login(INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD)
+        if INSTAGRAM_2FA_SEED:
+            code = client.totp_generate_code(INSTAGRAM_2FA_SEED)
+            print("Day #{} | Generated 2FA code".format(dayOfTheYear))
+
+    client.login(INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD, verification_code=code)
     client.dump_settings(WORKING_DIRECTORY_PATH + 'ig.session')
 
     print("Day #{} | Logged in!".format(dayOfTheYear))

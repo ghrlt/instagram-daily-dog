@@ -24,7 +24,7 @@ mv ig-dailyduck.service /etc/systemd/system
 mv ig-dailyduck.timer /etc/systemd/system
 ```
 
-Now open `.env` in your preferred editor and fill in your details.
+Now open `.env` in your preferred editor and fill in your details. (If you do not have 2FA on your account, do not touch `INSTAGRAM_2FA_SEED`.
 
 Then, enable the service.
 ```
