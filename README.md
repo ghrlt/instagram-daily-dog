@@ -8,6 +8,7 @@ This program is made to be run as a Linux service, still, you can use the code i
 git clone https://gist.github.com/d4f2a315bc81dc631c7881fd497ac881.git
 mv d4f2a315bc81dc631c7881fd497ac881 ig-dailyduck
 cd ig-dailyduck
+mv '~.env' .env
 ```
 Before continuing, you will have to set the value of `WorkingDirectory` in `ig-dailyduck.service` file by the path to the location of ig-dailyduck folder.
 Once you did, and only then, you can continue
