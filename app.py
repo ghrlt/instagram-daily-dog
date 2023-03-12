@@ -99,11 +99,10 @@ def main():
     # Format the picture to fit
     formatImage(duckPath)
     addCaption(duckPath, 'Duck #{}'.format(dayOfTheYear))
-
     print("Day #{} | Story formatted!".format(dayOfTheYear))
 
     # Post the picture in an Instagram story
-    client.photo_upload_to_story(
+    duckStory = client.photo_upload_to_story(
         duckPath,
         # links=[
         #     StoryLink(
@@ -111,8 +110,14 @@ def main():
         #     )
         # ]
     )
-
     print("Day #{} | Duck posted!".format(dayOfTheYear))
+
+    # Check if user as an highlight named "Ducks" (Feel free to change this)
+    for userHighlight in client.user_highlights(client.user_id):
+        if userHighlight.title == "Ducks":
+            # Add the story to highlights
+            client.highlight_add_stories(userHighlight.pk, [duckStory.pk])
+            print("Day #{} | Added story to highlight".format(dayOfTheYear))
 
 
 if __name__ == "__main__":
