@@ -1,14 +1,12 @@
-Wanna post a duck everyday in your Instagram story? This gist is made for you!
-
-This program is made to be run as a Linux service, still, you can use the code in `app.py` alone.
+# Instagram Story Daily Duck
+Wanna post a duck everyday in your Instagram story? This repo is made for you!
 
 
 # Installation as a Linux service
 Download
 ```
-git clone https://gist.github.com/d4f2a315bc81dc631c7881fd497ac881.git
-mv d4f2a315bc81dc631c7881fd497ac881 ig-dailyduck
-cd ig-dailyduck
+git clone https://github.com/ghrlt/instagram-daily-duck.git
+cd instagram-daily-duck
 ```
 
 Install requirements
@@ -30,4 +28,18 @@ Then, enable the service.
 systemctl daemon-reload
 systemctl enable ig-dailyduck --now
 ```
-Enjoy your daily duck, default posted at 5pm
+Enjoy your daily duck, default posted at 5pm UTC
+
+# FAQ
+
+#### What is 'INSTAGRAM_2FA_SEED'?
+If you have enabled 2FA on your Instagram account, and you set it up through an auth app like Authy or Google Authenticator, you were provided with a QRcode / a seed! 
+This seed allow to generate the 2FA 6 digits code, required to login in your account. You can found it, either when setting up 2FA or in your auth application (Usually, you'll have an "Edit" button on the account)
+
+#### Is it safe for my Instagram account?
+Automating anything on Instagram is against their TOS, thus, I cannot take any responsability if the usage of this program leads to a ban.
+<br>
+However, the [library used](https://github.com/adw0rd/instagrapi) is built to avoid as much as possible any detection. Furthermore, as this program is only posting once a day, it shouldn't be flagged.
+
+
+If you are worried for your credentials, which you should always be, you can check by yourself the code of both this program and [instagrapi](https://github.com/ghrlt/instagram-daily-duck).
