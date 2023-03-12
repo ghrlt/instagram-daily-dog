@@ -9,7 +9,6 @@ Download
 git clone https://gist.github.com/d4f2a315bc81dc631c7881fd497ac881.git
 mv d4f2a315bc81dc631c7881fd497ac881 ig-dailyduck
 cd ig-dailyduck
-mv '~.env' .env
 ```
 
 Install requirements
