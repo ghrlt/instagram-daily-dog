@@ -3,7 +3,9 @@ import datetime
 import requests
 
 import instagrapi
-# from instagrapi.types import StoryLink
+from instagrapi.types import StoryLink
+
+from PIL import Image, ImageDraw
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -36,6 +38,21 @@ def getDuck(duckid: int):
 
     raise Exception("Error getting duck: {}".format(response.status_code))
 
+def formatImage(duckpath: str):
+    base = Image.new('RGB', (1080,1920), (255,255,0))
+    duck = Image.open(duckpath)
+
+    #~ Resize the image to fit, if it's too large (>1000) or too small (<800)
+    if duck.size[0] > 1000 or duck.size[0] < 800:
+        wPercent = (1000/float(duck.size[0]))
+        hSize = int((float(duck.size[1])*float(wPercent)))
+        duck = duck.resize((1000,hSize), Image.Resampling.LANCZOS)
+
+    wPos = int((1080-duck.size[0])/2)
+    hPos = int((1920-duck.size[1])/2)
+    base.paste(duck, (wPos, hPos))
+    base.save(duckpath, quality=95)
+
 
 def main():
     code = ''
@@ -59,13 +76,16 @@ def main():
     print("Day #{} | Logged in!".format(dayOfTheYear))
 
     # Obtain the duck picture
-    duck = getDuck(dayOfTheYear)
+    duckPath = getDuck(dayOfTheYear)
+
+    # Format the picture to fit
+    formatImage(duckPath)
 
     print("Day #{} | Duck obtained!".format(dayOfTheYear))
 
     # Post the picture in an Instagram story
     client.photo_upload_to_story(
-        duck,
+        duckPath,
         # links=[
         #     StoryLink(
         #         webUri="https://random-d.uk/api/{}.jpg".format(dayOfTheYear)
