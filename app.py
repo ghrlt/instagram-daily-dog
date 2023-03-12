@@ -5,7 +5,7 @@ import requests
 import instagrapi
 from instagrapi.types import StoryLink
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -53,6 +53,23 @@ def formatImage(duckpath: str):
     base.paste(duck, (wPos, hPos))
     base.save(duckpath, quality=95)
 
+def addCaption(duckpath: str, caption: str):
+    duck = Image.open(duckpath)
+    draw = ImageDraw.Draw(duck)
+    font = ImageFont.truetype(WORKING_DIRECTORY_PATH + 'captionFont.ttf', 80)
+
+    #~ Determine text size & position
+    _,_, wText, hText = draw.textbbox((0,0), caption, font=font)
+    wPos = (duck.size[0]-wText)/2
+    hPos = (duck.size[1]-hText)/1.1
+
+    #~ Draw caption background
+    draw.rounded_rectangle((wPos*0.90, hPos*0.985, wPos*1.10+wText, hPos*1.025+hText), fill=(0,0,0), radius=20)
+
+    #~ Write caption
+    draw.text((wPos, hPos), caption, font=font, fill=(255,255,255))
+    duck.save(duckpath)
+
 
 def main():
     code = ''
@@ -77,11 +94,13 @@ def main():
 
     # Obtain the duck picture
     duckPath = getDuck(dayOfTheYear)
+    print("Day #{} | Duck obtained!".format(dayOfTheYear))
 
     # Format the picture to fit
     formatImage(duckPath)
+    addCaption(duckPath, 'Duck #{}'.format(dayOfTheYear))
 
-    print("Day #{} | Duck obtained!".format(dayOfTheYear))
+    print("Day #{} | Story formatted!".format(dayOfTheYear))
 
     # Post the picture in an Instagram story
     client.photo_upload_to_story(
