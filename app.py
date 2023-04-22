@@ -1,11 +1,13 @@
 import os
+import math
+import random
 import datetime
 import requests
 
 import instagrapi
 from instagrapi.types import StoryLink
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -41,6 +43,21 @@ def getDuck(duckid: int):
 def formatImage(duckpath: str):
     base = Image.new('RGB', (1080,1920), (255,255,0))
     duck = Image.open(duckpath)
+    originalDuck = duck.copy()
+
+    #~ Resize and spawn multiple image of duck in the background
+    wPercent = (216/float(originalDuck.size[0]))
+    hSize = int((float(originalDuck.size[1])*float(wPercent)))
+    smallDuck = originalDuck.resize((216,hSize), Image.Resampling.LANCZOS)
+
+    #~ Reduce brightness & blur, goal is to put in foreground the main duck
+    smallDuck = ImageEnhance.Brightness(smallDuck).enhance(.75)
+    smallDuck = smallDuck.filter(ImageFilter.GaussianBlur(4))
+
+    for i in range( math.ceil(base.size[1]/hSize) ):
+        for j in range( math.ceil(base.size[0]/smallDuck.size[0]) ):
+            base.paste(smallDuck, (j*smallDuck.size[0],i*smallDuck.size[1]))
+
 
     #~ Resize the image to fit, if it's too large (>1000) or too small (<800)
     if duck.size[0] > 1000 or duck.size[0] < 800:
@@ -50,6 +67,7 @@ def formatImage(duckpath: str):
 
     wPos = int((1080-duck.size[0])/2)
     hPos = int((1920-duck.size[1])/2)
+
     base.paste(duck, (wPos, hPos))
     base.save(duckpath, quality=95)
 
@@ -61,10 +79,18 @@ def addCaption(duckpath: str, caption: str):
     #~ Determine text size & position
     _,_, wText, hText = draw.textbbox((0,0), caption, font=font)
     wPos = (duck.size[0]-wText)/2
-    hPos = (duck.size[1]-hText)/6
 
+    
     #~ Draw caption background
-    draw.rounded_rectangle((wPos*0.90, hPos*0.95, wPos*1.10+wText, hPos*1.10+hText), fill=(0,0,0), radius=20)
+    
+    #~ Vertical placement (top/bottom) is random
+    onTop = random.randint(0,1) == 0
+    if onTop:
+        hPos = (duck.size[1]-hText)/6
+        draw.rounded_rectangle((wPos*0.90, hPos*0.95, wPos*1.10+wText, hPos*1.10+hText), fill=(0,0,0), radius=20)
+    else:
+        hPos = (duck.size[1]-hText)/1.1
+        draw.rounded_rectangle((wPos*0.90, hPos*0.985, wPos*1.10+wText, hPos*1.025+hText), fill=(0,0,0), radius=20) # Bottom
 
     #~ Write caption
     draw.text((wPos, hPos), caption, font=font, fill=(255,255,255))
@@ -121,4 +147,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    dayOfTheYear = datetime.datetime.now().timetuple().tm_yday
+    duckPath = getDuck(dayOfTheYear)
+    print("Day #{} | Duck obtained!".format(dayOfTheYear))
+
+    # Format the picture to fit
+    formatImage(duckPath)
+    addCaption(duckPath, 'Duck #{}'.format(dayOfTheYear))
+    print("Day #{} | Story formatted!".format(dayOfTheYear))
