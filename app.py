@@ -61,10 +61,10 @@ def addCaption(duckpath: str, caption: str):
     #~ Determine text size & position
     _,_, wText, hText = draw.textbbox((0,0), caption, font=font)
     wPos = (duck.size[0]-wText)/2
-    hPos = (duck.size[1]-hText)/1.1
+    hPos = (duck.size[1]-hText)/6
 
     #~ Draw caption background
-    draw.rounded_rectangle((wPos*0.90, hPos*0.985, wPos*1.10+wText, hPos*1.025+hText), fill=(0,0,0), radius=20)
+    draw.rounded_rectangle((wPos*0.90, hPos*0.95, wPos*1.10+wText, hPos*1.10+hText), fill=(0,0,0), radius=20)
 
     #~ Write caption
     draw.text((wPos, hPos), caption, font=font, fill=(255,255,255))
