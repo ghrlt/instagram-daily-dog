@@ -147,12 +147,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    dayOfTheYear = datetime.datetime.now().timetuple().tm_yday
-    duckPath = getDuck(dayOfTheYear)
-    print("Day #{} | Duck obtained!".format(dayOfTheYear))
-
-    # Format the picture to fit
-    formatImage(duckPath)
-    addCaption(duckPath, 'Duck #{}'.format(dayOfTheYear))
-    print("Day #{} | Story formatted!".format(dayOfTheYear))
+    main()
