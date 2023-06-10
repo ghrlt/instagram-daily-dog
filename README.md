@@ -1,12 +1,12 @@
-# Instagram Story Daily Duck
-Wanna post a duck everyday in your Instagram story? This repo is made for you!
+# Instagram Story Daily Cat
+Wanna post a cat everyday in your Instagram story? This repo is made for you!
 
 
 # Installation as a Linux service
 Download
 ```
-git clone https://github.com/ghrlt/instagram-daily-duck.git
-cd instagram-daily-duck
+git clone https://github.com/ghrlt/instagram-daily-cat.git
+cd instagram-daily-cat
 ```
 
 Install requirements
@@ -14,11 +14,11 @@ Install requirements
 pip install -r requirements.txt
 ```
 
-Before continuing, you will have to set the value of `WorkingDirectory` in `ig-dailyduck.service` file by the path to the location of ig-dailyduck folder.
+Before continuing, you will have to set the value of `WorkingDirectory` in `ig-dailycat.service` file by the path to the location of ig-dailycat folder.
 Once you did, and only then, you can continue
 ```
-mv ig-dailyduck.service /etc/systemd/system
-mv ig-dailyduck.timer /etc/systemd/system
+mv ig-dailycat.service /etc/systemd/system
+mv ig-dailycat.timer /etc/systemd/system
 ```
 
 Now open `.env` in your preferred editor and fill in your details. (If you do not have 2FA on your account, do not touch `INSTAGRAM_2FA_SEED`.
@@ -26,9 +26,9 @@ Now open `.env` in your preferred editor and fill in your details. (If you do no
 Then, enable the service.
 ```
 systemctl daemon-reload
-systemctl enable ig-dailyduck --now
+systemctl enable ig-dailycat --now
 ```
-Enjoy your daily duck, default posted at 5pm UTC
+Enjoy your daily cat, default posted at 5pm UTC
 
 # FAQ
 
@@ -42,4 +42,4 @@ Automating anything on Instagram is against their TOS, thus, I cannot take any r
 However, the [library used](https://github.com/adw0rd/instagrapi) is built to avoid as much as possible any detection. Furthermore, as this program is only posting once a day, it shouldn't be flagged.
 
 
-If you are worried for your credentials, which you should always be, you can check by yourself the code of both this program and [instagrapi](https://github.com/ghrlt/instagram-daily-duck).
+If you are worried for your credentials, which you should always be, you can check by yourself the code of both this program and [instagrapi](https://github.com/ghrlt/instagram-daily-cat).
