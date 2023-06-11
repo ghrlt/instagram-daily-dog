@@ -1,6 +1,6 @@
 [Unit]
-Description=Post a cat in your Instagram story, everyday
-#Wants=ig-dailycat.timer
+Description=Post a dog in your Instagram story, everyday
+#Wants=ig-dailydog.timer
 
 [Service]
 Type=oneshot

@@ -1,0 +1,11 @@
+[Unit]
+Description=Post a dog in your Instagram story, everyday
+#Wants=ig-dailydog.service
+
+[Timer]
+Unit=ig-dailydog.service
+OnCalendar=*-*-* 17:00:00
+AccuracySec=1h
+
+[Install]
+WantedBy=timers.target
