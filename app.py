@@ -117,7 +117,7 @@ def main():
             code = client.totp_generate_code(INSTAGRAM_2FA_SEED)
             print("Day #{} | Generated 2FA code".format(dayOfTheYear))
 
-    client.login(INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD, verifidogion_code=code)
+    client.login(INSTAGRAM_USERNAME, INSTAGRAM_PASSWORD, verification_code=code)
     client.dump_settings(WORKING_DIRECTORY_PATH + 'ig.session')
 
     print("Day #{} | Logged in!".format(dayOfTheYear))
